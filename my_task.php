@@ -18,8 +18,16 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
     } else if (isset($_GET['due_date']) &&  $_GET['due_date'] == "No Deadline") {
         $text = "Tasks with No Deadline";
         $tasks = get_my_tasks_NoDeadline($conn, $user_id);
+    } else if (isset($_GET['status'])) { // This is the new part
+        $status = $_GET['status'];
+    // Create a user-friendly title from the status, e.g., 'in_progress' becomes 'In progress'
+        $text = ucfirst(str_replace('_', ' ', $status)) . " Tasks"; 
+    // Call the new function to get tasks filtered by status
+        $tasks = get_my_tasks_by_status($conn, $user_id, $status);
+
     } else {
-        // Corrected function call to get all tasks for the logged-in user
+    // This is the default case when no filter is applied
+        $text = "All My Tasks";
         $tasks = get_all_tasks_by_id($conn, $user_id);
     }
     
@@ -92,7 +100,6 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                         ?>
                     </td>
                     <td>
-                        <a href="edit-task-trainee.php?id=<?=$task['id']?>" class="edit-btn">Update Status</a>
                         <form action="app/submit_task.php" method="post" enctype="multipart/form-data" style="display: inline-flex; align-items: center; margin-top: 5px;">
                             <input type="hidden" name="task_id" value="<?=$task['id']?>">
                             <input type="file" name="task_file" required style="margin-right: 10px;">

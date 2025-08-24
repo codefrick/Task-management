@@ -266,3 +266,13 @@ function get_my_tasks_NoDeadline($conn, $id){
         return 0;
     }
 }
+
+function get_my_tasks_by_status($conn, $user_id, $status) {
+    $sql = "SELECT * FROM tasks WHERE assigned_to = ? AND status = ? ORDER BY id DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$user_id, $status]);
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll();
+    }
+    return 0;
+}

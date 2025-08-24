@@ -99,13 +99,13 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) ) {
                         <a href="my_task.php"><i class="fa fa-clock-o"></i><span><?=$nodeadline_task?> No Deadline</span></a>
                     </div>
                     <div class="dashboard-item">
-                        <a href="my_task.php"><i class="fa fa-square-o"></i><span><?=$pending?> Pending</span></a>
+                        <a href="my_task.php?status=pending"><i class="fa fa-square-o"></i><span><?=$pending?> Pending</span></a>
                     </div>
                     <div class="dashboard-item">
-                        <a href="my_task.php"><i class="fa fa-spinner"></i><span><?=$in_progress?> In progress</span></a>
+                        <a href="my_task.php?status=in_progress"><i class="fa fa-spinner"></i><span><?=$in_progress?> In progress</span></a>
                     </div>
                     <div class="dashboard-item">
-                        <a href="my_task.php"><i class="fa fa-check-square-o"></i><span><?=$completed?> Completed</span></a>
+                        <a href="my_task.php?status=completed"><i class="fa fa-check-square-o"></i><span><?=$completed?> Completed</span></a>
                     </div>
                 </div>
             <?php } ?>
