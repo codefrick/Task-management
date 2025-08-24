@@ -5,6 +5,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
     if (isset($_POST['task_id']) && isset($_FILES['task_file'])) {
         include "../DB_connection.php";
         include "Model/Notification.php"; // Include the notification model
+        include "Model/Task.php";         // ✅ ADD THIS LINE
 
         $task_id = $_POST['task_id'];
         $user_id = $_SESSION['id'];
@@ -22,6 +23,9 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                     $sql = "INSERT INTO task_submissions (task_id, user_id, file_path) VALUES (?, ?, ?)";
                     $stmt = $conn->prepare($sql);
                     $stmt->execute([$task_id, $user_id, $uniqueFileName]);
+
+                    // ✅ ADD THIS LINE: Update the task status to 'completed'
+                    update_task_status($conn, ['completed', $task_id]);
 
                     // ## START: Create Notification for Admin ##
                     // 2. Find the admin's ID

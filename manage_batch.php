@@ -42,10 +42,11 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
 					<td><?=$batch['completion_date']?></td>
 					<td><?=$batch['status']?></td>
 					<td>
-                        <a href="view_batch_trainees.php?batch_id=<?=$batch['id']?>" class="edit-btn" style="background: #5cb85c; margin-bottom: 5px;">View Trainees</a>
-                        <a href="edit_batch.php?id=<?=$batch['id']?>" class="edit-btn">Edit</a>
-						<a href="delete_batch.php?id=<?=$batch['id']?>" class="delete-btn">Delete</a>
-					</td>
+    <a href="view_batch_trainees.php?batch_id=<?=$batch['id']?>" class="edit-btn" style="background: #5cb85c; margin-bottom: 5px;">View Trainees</a>
+    <a href="edit_batch.php?id=<?=$batch['id']?>" class="edit-btn">Edit</a>
+    <a href="delete_batch.php?id=<?=$batch['id']?>" class="delete-btn">Delete</a>
+    <a href="download_batch_report.php?batch_id=<?=$batch['id']?>" class="edit-btn" style="background: #f0ad4e;">Download Report</a>
+</td>
 				</tr>
 			   <?php } ?>
 			</table>
