@@ -1,36 +1,33 @@
 <?php 
 session_start();
+
 if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == 'Trainee') {
     include "DB_connection.php";
     include "app/Model/Task.php";
 
     $user_id = $_SESSION['id'];
-    $text = "All My Tasks";
     $tasks = [];
+    $text = "All My Tasks";
 
-    // Filtering Logic
-    if (isset($_GET['due_date']) &&  $_GET['due_date'] == "Due Today") {
+    // ✅ Integrated Filtering Logic
+    if (isset($_GET['due_date']) && $_GET['due_date'] == "Due Today") {
         $text = "Tasks Due Today";
         $tasks = get_my_tasks_due_today($conn, $user_id);
-    } else if (isset($_GET['due_date']) &&  $_GET['due_date'] == "Overdue") {
+    } else if (isset($_GET['due_date']) && $_GET['due_date'] == "Overdue") {
         $text = "Overdue Tasks";
         $tasks = get_my_tasks_overdue($conn, $user_id);
-    } else if (isset($_GET['due_date']) &&  $_GET['due_date'] == "No Deadline") {
+    } else if (isset($_GET['due_date']) && $_GET['due_date'] == "No Deadline") {
         $text = "Tasks with No Deadline";
         $tasks = get_my_tasks_NoDeadline($conn, $user_id);
-    } else if (isset($_GET['status'])) { // This is the new part
+    } else if (isset($_GET['status'])) {
         $status = $_GET['status'];
-    // Create a user-friendly title from the status, e.g., 'in_progress' becomes 'In progress'
-        $text = ucfirst(str_replace('_', ' ', $status)) . " Tasks"; 
-    // Call the new function to get tasks filtered by status
+        $text = ucfirst(str_replace('_', ' ', $status)) . " Tasks";
         $tasks = get_my_tasks_by_status($conn, $user_id, $status);
-
     } else {
-    // This is the default case when no filter is applied
         $text = "All My Tasks";
         $tasks = get_all_tasks_by_id($conn, $user_id);
     }
-    
+
     $num_task = is_array($tasks) ? count($tasks) : 0;
 
     // Fetch reviews for the tasks
@@ -59,7 +56,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                 <a href="my_task.php?due_date=No Deadline">No Deadline</a>
                 <a href="my_task.php">All My Tasks</a>
             </h4>
-            <h4 class="title-2"><?=htmlspecialchars($text)?> (<?=$num_task?>)</h4>
+            <h4 class="title-2"><?= htmlspecialchars($text) ?> (<?= $num_task ?>)</h4>
             
             <?php if (isset($_GET['success'])) { ?>
                 <div class="success" role="alert"><?= htmlspecialchars($_GET['success']) ?></div>
@@ -79,8 +76,8 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                 </tr>
                 <?php foreach ($tasks as $task) { ?>
                 <tr>
-                    <td><?=htmlspecialchars($task['title'])?></td>
-                    <td><?=htmlspecialchars($task['status'])?></td>
+                    <td><?= htmlspecialchars($task['title']) ?></td>
+                    <td><?= htmlspecialchars($task['status']) ?></td>
                     <td>
                         <?php 
                             if ($task['due_date'] == "0000-00-00" || $task['due_date'] == NULL) {
@@ -101,7 +98,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                     </td>
                     <td>
                         <form action="app/submit_task.php" method="post" enctype="multipart/form-data" style="display: inline-flex; align-items: center; margin-top: 5px;">
-                            <input type="hidden" name="task_id" value="<?=$task['id']?>">
+                            <input type="hidden" name="task_id" value="<?= $task['id'] ?>">
                             <input type="file" name="task_file" required style="margin-right: 10px;">
                             <button type="submit" class="edit-btn" style="background: #5cb85c;">Submit File</button>
                         </form>

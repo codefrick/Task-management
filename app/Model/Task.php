@@ -218,12 +218,14 @@ function update_overdue_tasks($conn){
     $stmt = $conn->prepare($sql);
     $stmt->execute();
 }
+
 function count_all_submissions($conn){
 	$sql = "SELECT id FROM task_submissions";
 	$stmt = $conn->prepare($sql);
 	$stmt->execute([]);
 	return $stmt->rowCount();
 }
+
 function count_my_reviews($conn, $user_id){
 	$sql = "SELECT COUNT(*) FROM task_submissions WHERE user_id = ? AND review IS NOT NULL AND review != ''";
 	$stmt = $conn->prepare($sql);
@@ -276,3 +278,16 @@ function get_my_tasks_by_status($conn, $user_id, $status) {
     }
     return 0;
 }
+
+/* ✅ NEW: Admin - Get all tasks by status */
+function get_tasks_by_status($conn, $status) {
+    $sql = "SELECT * FROM tasks WHERE status = ? ORDER BY id DESC";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$status]);
+    if ($stmt->rowCount() > 0) {
+        return $stmt->fetchAll();
+    }
+    return 0;
+}
+
+?>
