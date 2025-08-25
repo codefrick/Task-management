@@ -69,6 +69,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
             <table class="main-table">
                 <tr>
                     <th>Task Title</th>
+                    <th>Task File</th>
                     <th>Status</th>
                     <th>Due Date</th>
                     <th>Admin Review</th>
@@ -77,6 +78,15 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == '
                 <?php foreach ($tasks as $task) { ?>
                 <tr>
                     <td><?= htmlspecialchars($task['title']) ?></td>
+                    <td>
+                        <?php if (!empty($task['file_path'])): ?>
+                            <a href="upload_admin_create_task/<?= htmlspecialchars($task['file_path']) ?>" target="_blank">
+                                Download File
+                            </a>
+                        <?php else: ?>
+                            <i>No file attached.</i>
+                        <?php endif; ?>
+                    </td>
                     <td><?= htmlspecialchars($task['status']) ?></td>
                     <td>
                         <?php 
