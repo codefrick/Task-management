@@ -16,7 +16,7 @@ if (isset($_SESSION['role']) && isset($_SESSION['id']) && $_SESSION['role'] == "
     	 exit();
     }
 
-     $data = array($id, "employee");
+     $data = array($id, "Trainee");
      delete_user($conn, $data);
      $sm = "Deleted Successfully";
      header("Location: user.php?success=$sm");
